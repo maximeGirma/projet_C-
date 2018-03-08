@@ -1,6 +1,6 @@
-﻿namespace FetiCho
+﻿namespace View
 {
-    partial class Form1
+    partial class MainFrame
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
