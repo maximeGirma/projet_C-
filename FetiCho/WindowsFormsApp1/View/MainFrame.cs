@@ -45,6 +45,7 @@ namespace View
 
         private void button1_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("button1");
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -87,10 +88,7 @@ namespace View
         {
 
         }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-        }
+        
 
         private void envoiEmailToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -422,6 +420,7 @@ namespace View
             try
             {
                 MySqlDataAdapter sda = controller.getData();
+
                 DataTable dbdataset = new DataTable();
                 sda.Fill(dbdataset);
                 BindingSource bSource = new BindingSource();
