@@ -1,25 +1,27 @@
-﻿using System;
+﻿using InterfaceModelView;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using InterfaceModelView;
+using System.Windows.Forms;
+using WindowsFormsApp1.Model.DataBase.DataService;
 
-namespace Model
+namespace WindowsFormsApp1.Model
 {
     public class Model : IModel
     {
-        private Model model = null;
-        private Model()
+        private static Model model = null;
+        private Model() { }
+
+        public static Model getInstance()
         {
-
-        } 
-        public Model getInstance() {
-
-            if (model == null)  model = new Model();
+            if (model == null) model = new Model();
             return model;
-            
         }
+        public MySqlDataAdapter GetAllStoredData() { return ServiceGetData.all(); }
+
         public DataList GetStoredDataByDate(DateTime date) { return new DataList(); }
 
         public Boolean ImportDataFromTxt() { return true; }

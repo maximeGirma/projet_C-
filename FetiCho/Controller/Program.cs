@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WindowsFormsApp1
+namespace Controller
 {
-    class ViewController
+    class Program
     {
+        static void Main(string[] args)
+        {
+        }
     }
 }

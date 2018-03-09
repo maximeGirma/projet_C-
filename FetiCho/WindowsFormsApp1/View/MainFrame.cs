@@ -1,4 +1,6 @@
-﻿using iTextSharp.text;
+﻿using FetiCho;
+using InterfaceModelView;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using MySql.Data.MySqlClient;
 using System;
@@ -11,24 +13,28 @@ using System.IO;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
-using System.Windows.Forms;
-using InterfaceModelView;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace View
-{
-    public partial class MainFrame : Form, IView 
-    {
 
+{
+    public partial class MainFrame : Form, IView
+    {
+        private Controller controller = null;
         public MainFrame()
         {
             InitializeComponent();
+
+        }
+        public void setController()
+        {
+            controller = Controller.getInstance();
         }
 
         public void DisplayDataList(DataList dataList) { }
 
         public void DisplayInfo() { }
-
 
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -39,28 +45,6 @@ namespace View
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
-            MessageBox.Show("buttin1_click!");
-            MySqlConnection conn = new MySqlConnection(pathDb);
-            conn.Open();
-            MySqlCommand query = new MySqlCommand("SELECT * from `meteodata`", conn);
-
-            try
-            {
-                MySqlDataAdapter sda = new MySqlDataAdapter();
-                sda.SelectCommand = query;
-                DataTable dbdataset = new DataTable();
-                sda.Fill(dbdataset);
-                BindingSource bSource = new BindingSource();
-                bSource.DataSource = dbdataset;
-                dataGridView1.DataSource = bSource;
-                sda.Update(dbdataset);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -106,20 +90,6 @@ namespace View
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
-            MySqlConnection conn = new MySqlConnection(pathDb);
-            conn.Open();
-            MySqlCommand query = new MySqlCommand("SELECT * FROM `meteodata`", conn);
-
-            MySqlDataReader myReader;
-
-            myReader = query.ExecuteReader();
-
-            while (myReader.Read())
-            {
-                this.chart1.Series["Temperature"].Points.AddXY(myReader.GetString("id"), myReader.GetDouble("temp"));
-                this.chart1.Series["Taux Humidité"].Points.AddXY(myReader.GetString("id"), myReader.GetDouble("humidity"));
-            }
         }
 
         private void envoiEmailToolStripMenuItem_Click(object sender, EventArgs e)
@@ -135,7 +105,7 @@ namespace View
             smtp.EnableSsl = true;
             smtp.Credentials = new System.Net.NetworkCredential("bo76h211@gmail.com", "Cesi2017");
 
-            string file = @"C:\Users\alexi\Dropbox\ProjetC#\4_Documents\sourcedonnees.csv";
+            string file = @"D:\Zoran\Downloads\Dropbox\C\Dropbox\ProjetC#\4_Documents\sourcedonnees.csv";
             // Create  the file attachment for this e-mail message.
             Attachment data = new Attachment(file, MediaTypeNames.Application.Octet);
             // Add the file attachment to this e-mail message.
@@ -168,7 +138,7 @@ namespace View
             string totalTime = "01:25:00";
 
             Document doc = new Document(PageSize.A4, 10f, 10f, 10f, 10f);
-            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(@"C:\Users\alexi\Dropbox\ProjetC#\4_Documents\test.pdf", FileMode.Create));
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(@"D:\Zoran\Downloads\Dropbox\C\Dropbox\ProjetC#\4_Documents\test.pdf", FileMode.Create));
             doc.Open();
             Paragraph paragraph1 = new Paragraph("Fichier créé le : " + DateTime.Now);
             paragraph1.SpacingAfter = 10;
@@ -260,32 +230,6 @@ namespace View
 
         private void exportCsvToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
-
-            MySqlConnection conn = new MySqlConnection(pathDb);
-            Console.WriteLine("Connecting to MySQL...");
-            conn.Open();
-            Console.WriteLine("Connected");
-
-
-            MySqlCommand cmd = new MySqlCommand("SELECT * from `meteodata`", conn);
-            MySqlDataReader reader = cmd.ExecuteReader();
-
-            StringBuilder csvcontent = new StringBuilder();
-            csvcontent.AppendLine("id, date, temperature, taux d'humidite");
-
-            while (reader.Read())
-            {
-                csvcontent.AppendLine(reader.GetString("id") + "," +
-                    reader.GetString("date") + "," +
-                    reader.GetString("temp").Replace(",", ".") + "," +
-                    reader.GetString("humidity") + "%");
-
-            }
-            Console.ReadLine();
-
-            string pathCsv = @"C:\Users\alexi\Dropbox\ProjetC#\4_Documents\sourcedonnees.csv";
-            File.AppendAllText(pathCsv, csvcontent.ToString());
         }
 
         private void importTxtToolStripMenuItem_Click(object sender, EventArgs e)
@@ -297,7 +241,7 @@ namespace View
             conn.Open();
             Console.WriteLine("Connected");
 
-            string path = @"C:\Users\alexi\Dropbox\ProjetC#\4_Documents\Sourcedonnées.txt";
+            string path = @"D:\Zoran\Downloads\Dropbox\C\Dropbox\ProjetC#\4_Documents\Sourcedonnées.txt";
             int counter = 0;
 
             String[] file = File.ReadAllLines(path);         // Read the file and display it line by line.  
@@ -333,6 +277,188 @@ namespace View
             System.Console.WriteLine("There were {0} lines.", counter);
             // Suspend the screen.  
             System.Console.ReadLine();
+        }
+
+        private void affichageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pdfToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string number = "11161806 20170524 11585745";
+            string notes = "Test 1 semaine";
+            string description = "SN: 11161806";
+            string interval = " 300 secondes";
+            string alarm = "-20.0 , 100.0";
+            int totalRecord = 11;
+            string tempStat = "31.0 / 28.1 / 29.0 / 29.0";
+            string humidityStat = "56.0 / 44.0 / 49.0 %";
+            DateTime startTime = new DateTime(2017, 05, 24, 12, 32, 35);
+            DateTime endTime = new DateTime(2017, 05, 24, 13, 57, 35);
+            string totalTime = "01:25:00";
+
+            Document doc = new Document(PageSize.A4, 10f, 10f, 10f, 10f);
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(@"D:\Zoran\Downloads\Dropbox\C\Dropbox\ProjetC#\4_Documents\test.pdf", FileMode.Create));
+            doc.Open();
+            Paragraph paragraph1 = new Paragraph("Fichier créé le : " + DateTime.Now);
+            paragraph1.SpacingAfter = 10;
+
+            PdfPTable table = new PdfPTable(2);
+            PdfPCell cell = new PdfPCell(new Phrase("DATA REPORT"));
+            cell.BackgroundColor = new BaseColor(0, 150, 0);
+            cell.Colspan = 2;
+            cell.HorizontalAlignment = 1;
+            cell.Padding = 10;
+
+            table.AddCell(cell);
+
+            table.AddCell("No:");
+            table.AddCell(number);
+            table.AddCell("Notes: ");
+            table.AddCell(notes);
+            table.AddCell("Description:");
+            table.AddCell(description);
+            table.AddCell("Storage Interval:");
+            table.AddCell(interval);
+            table.AddCell("Alarm Settings:");
+            table.AddCell(alarm);
+            table.AddCell("Total Records:");
+            table.AddCell((totalRecord).ToString());
+            table.AddCell("Temp Max/ Min / Avg / MKT:");
+            table.AddCell(tempStat);
+            table.AddCell("Humidity Max/ Min / Avg:");
+            table.AddCell(humidityStat);
+            table.AddCell(" Start Time: ");
+            table.AddCell(startTime.ToString());
+            table.AddCell("End Time: ");
+            table.AddCell(endTime.ToString());
+            table.AddCell("Total Time:");
+            table.AddCell(totalTime);
+
+            Paragraph paragraph2 = new Paragraph("Temperature and humidity data");
+            paragraph2.SpacingBefore = 10;
+            paragraph2.SpacingAfter = 10;
+
+            Paragraph paragraph3 = new Paragraph("Temperature and humidity graph");
+            paragraph2.SpacingBefore = 10;
+            paragraph2.SpacingAfter = 10;
+
+            /* TABLEAU 
+              -----------------------------------------*/
+            PdfPTable table1 = new PdfPTable(dataGridView1.Columns.Count);
+
+            for (int j = 0; j < dataGridView1.Columns.Count; j++)
+            {
+                table1.AddCell(new Phrase(dataGridView1.Columns[j].HeaderText));
+            }
+
+            table1.HeaderRows = 1;
+
+            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            {
+                for (int k = 0; k < dataGridView1.Columns.Count; k++)
+                {
+                    if (dataGridView1[k, i].Value != null)
+                    {
+                        table1.AddCell(new Phrase(dataGridView1[k, i].Value.ToString()));
+                    }
+                }
+            }
+
+            /* GRAPHIQUE
+            ----------------------------------------------- */
+            var chartimage = new MemoryStream();
+            chart1.SaveImage(chartimage, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Png);
+            iTextSharp.text.Image Chart_image = iTextSharp.text.Image.GetInstance(chartimage.GetBuffer());
+
+            /* AJOUT AU FICHIER
+             * ---------------------------------------------*/
+            doc.Add(paragraph1);
+            doc.Add(table);
+            doc.Add(paragraph2);
+            doc.Add(table1);
+            doc.Add(paragraph2);
+            doc.Add(Chart_image);
+
+            doc.Close();
+
+        }
+
+        private void csvToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
+
+            MySqlConnection conn = new MySqlConnection(pathDb);
+            Console.WriteLine("Connecting to MySQL...");
+            conn.Open();
+            Console.WriteLine("Connected");
+
+
+            MySqlCommand cmd = new MySqlCommand("SELECT * from `meteodata`", conn);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            StringBuilder csvcontent = new StringBuilder();
+            csvcontent.AppendLine("id, date, temperature, taux d'humidite");
+
+            while (reader.Read())
+            {
+                csvcontent.AppendLine(reader.GetString("id") + "," +
+                    reader.GetString("date") + "," +
+                    reader.GetString("temp").Replace(",", ".") + "," +
+                    reader.GetString("humidity") + "%");
+
+            }
+            Console.ReadLine();
+
+            string pathCsv = @"D:\Zoran\Downloads\Dropbox\C\Dropbox\ProjetC#\4_Documents\sourcedonnees.csv";
+            File.AppendAllText(pathCsv, csvcontent.ToString());
+
+        }
+
+        private void tableauDisplay(object sender, EventArgs e)
+        {
+            this.setController();
+            try
+            {
+                MySqlDataAdapter sda = controller.getData();
+                DataTable dbdataset = new DataTable();
+                sda.Fill(dbdataset);
+                BindingSource bSource = new BindingSource();
+                bSource.DataSource = dbdataset;
+                dataGridView1.DataSource = bSource;
+                sda.Update(dbdataset);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+
+        }
+        private void graphiqueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
+            MySqlConnection conn = new MySqlConnection(pathDb);
+            conn.Open();
+            MySqlCommand query = new MySqlCommand("SELECT * FROM `meteodata`", conn);
+
+            MySqlDataReader myReader;
+
+            myReader = query.ExecuteReader();
+
+            while (myReader.Read())
+            {
+                this.chart1.Series["Temperature"].Points.AddXY(myReader.GetString("id"), myReader.GetDouble("temp"));
+                this.chart1.Series["Humidité"].Points.AddXY(myReader.GetString("id"), myReader.GetDouble("humidity"));
+            }
+
+        }
+
+        private void aProposToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox1 box = new AboutBox1();
+            box.ShowDialog();
         }
     }
 }

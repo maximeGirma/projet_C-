@@ -65,17 +65,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainFrame.cs">
+    <Compile Include="InterfaceModelVue\IModel.cs" />
+    <Compile Include="InterfaceModelVue\IView.cs" />
+    <Compile Include="Model\DataBase\DataBaseAccess\DataBaseConnect.cs" />
+    <Compile Include="Model\DataBase\DataBaseAccess\SelectAll.cs" />
+    <Compile Include="Model\DataBase\DataService\ServiceGetData.cs" />
+    <Compile Include="Model\DataBase\Mapper\DataBaseToWinForm.cs" />
+    <Compile Include="Model\Model.cs" />
+    <Compile Include="View\Components\AboutBox1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainFrame.Designer.cs">
+    <Compile Include="View\Components\AboutBox1.Designer.cs" />
+    <Compile Include="View\MainFrame.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\MainFrame.Designer.cs">
       <DependentUpon>MainFrame.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\temporary\MainFrame2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\temporary\MainFrame2.Designer.cs">
+      <DependentUpon>MainFrame2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DataList.cs" />
+    <Compile Include="Model\RecipientList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewController.cs" />
-    <EmbeddedResource Include="MainFrame.resx">
+    <Compile Include="Controller\Controller.cs" />
+    <EmbeddedResource Include="View\Components\AboutBox1.resx" />
+    <EmbeddedResource Include="View\MainFrame.resx">
       <DependentUpon>MainFrame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\temporary\MainFrame2.resx">
+      <DependentUpon>MainFrame2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -112,11 +135,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\InterfaceModelVue\InterfaceModelView.csproj">
-      <Project>{521acc65-3745-460b-a20e-8b842dac1f2c}</Project>
-      <Name>InterfaceModelView</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
