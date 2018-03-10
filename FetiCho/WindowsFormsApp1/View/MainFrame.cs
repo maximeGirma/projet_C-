@@ -29,6 +29,8 @@ namespace View
         public DateTime startDate;
         public DateTime endDate;
         public String email_recipient;
+        public Boolean blokeur = false;
+        public String id_sensor_to_display;
         public MainFrame()
         {
             InitializeComponent();
@@ -72,7 +74,7 @@ namespace View
                 string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
                 MySqlConnection conn = new MySqlConnection(pathDb);
                 conn.Open();
-                string Query = "DELETE FROM `meteodata` WHERE `id`='" + int.Parse(textBox1.Text) + "';";
+                string Query = "DELETE FROM `dataline` WHERE `id`='" + int.Parse(textBox1.Text) + "';";
 
 
                 MySqlCommand MyCommand2 = new MySqlCommand(Query, conn);
@@ -84,6 +86,7 @@ namespace View
                 {
                 }
                 conn.Close();
+                tableauDisplay();
             }
             catch (Exception ex)
             {
@@ -95,12 +98,15 @@ namespace View
         {
 
         }
-        
+
 
         private void envoiEmailToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // mailbox recupere le mail et appelle le reste de la fonction (sending_mail)
             GetEmail mailbox = new GetEmail(this);
             mailbox.Show();
+        }
+        public void sending_mail() { 
 
             MailMessage email = new MailMessage();
             email.From = new MailAddress("bo76h211@gmail.com");
@@ -113,7 +119,7 @@ namespace View
             smtp.EnableSsl = true;
             smtp.Credentials = new System.Net.NetworkCredential("bo76h211@gmail.com", "Cesi2017");
 
-            string file = @"D:\Zoran\Downloads\Dropbox\C\Dropbox\ProjetC#\4_Documents\sourcedonnees.csv";
+            string file = @"C:\Users\maxime\Desktop\aaaa";
             // Create  the file attachment for this e-mail message.
             Attachment data = new Attachment(file, MediaTypeNames.Application.Octet);
             // Add the file attachment to this e-mail message.
@@ -278,7 +284,7 @@ namespace View
             string totalTime = "01:25:00";
 
             Document doc = new Document(PageSize.A4, 10f, 10f, 10f, 10f);
-            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(@"D:\Zoran\Downloads\Dropbox\C\Dropbox\ProjetC#\4_Documents\test.pdf", FileMode.Create));
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(@"C:\Users\maxime\Desktop\testpdf", FileMode.Create));
             doc.Open();
             Paragraph paragraph1 = new Paragraph("Fichier créé le : " + DateTime.Now);
             paragraph1.SpacingAfter = 10;
@@ -405,16 +411,23 @@ namespace View
             }
         }
 
-        private void tableauDisplay(object sender, EventArgs e)
+        private void prepareTableauDisplay(object sender, EventArgs e)
         {
             this.setController();
-            try
-            {
+            
                 
                 CalendarDateSelector dateselector = new CalendarDateSelector(this);
                 dateselector.ShowDialog();
+                this.tableauDisplay();
+                
 
-                MySqlDataAdapter sda = controller.getDataByDate(startDate, endDate);
+
+        }
+        private void tableauDisplay()
+        {
+            try
+            {
+                MySqlDataAdapter sda = controller.getDataByDate(startDate, endDate, id_sensor_to_display);
 
                 DataTable dbdataset = new DataTable();
                 sda.Fill(dbdataset);
@@ -427,8 +440,6 @@ namespace View
             {
                 MessageBox.Show(ex.Message);
             }
-
-
         }
         private void graphiqueToolStripMenuItem_Click(object sender, EventArgs e)
         {

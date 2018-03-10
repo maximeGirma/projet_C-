@@ -32,7 +32,7 @@ namespace WindowsFormsApp1.View.Components
 
         private void OK_button(object sender, EventArgs e)
         {
-            
+            mainframe.id_sensor_to_display = textBox1.Text;
             mainframe.startDate = dateTimePicker1.Value;
             mainframe.endDate = dateTimePicker2.Value;
             this.Close();

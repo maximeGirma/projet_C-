@@ -52,9 +52,9 @@ namespace FetiCho
            Boolean importWorked = model.ImportDataFromTxt();
             if (importWorked) { return true; } else { return false; }
         }
-        public MySqlDataAdapter getDataByDate(DateTime startDate, DateTime endDate)
+        public MySqlDataAdapter getDataByDate(DateTime startDate, DateTime endDate,String id_sensor)
         {
-            return model.GetStoredDataByDate(startDate, endDate);
+            return model.GetStoredDataByDate(startDate, endDate, id_sensor);
         }
     }
 }

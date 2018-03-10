@@ -23,6 +23,7 @@ namespace WindowsFormsApp1.View.Components
         private void button1_Click(object sender, EventArgs e)
         {
             mainframe.email_recipient = textBox1.Text;
+            mainframe.sending_mail();
             this.Close();
         }
 

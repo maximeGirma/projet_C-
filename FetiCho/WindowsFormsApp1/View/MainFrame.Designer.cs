@@ -147,7 +147,7 @@
             this.tableauToolStripMenuItem.Name = "tableauToolStripMenuItem";
             this.tableauToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tableauToolStripMenuItem.Text = "Tableau";
-            this.tableauToolStripMenuItem.Click += new System.EventHandler(this.tableauDisplay);
+            this.tableauToolStripMenuItem.Click += new System.EventHandler(this.prepareTableauDisplay);
             // 
             // graphiqueToolStripMenuItem
             // 

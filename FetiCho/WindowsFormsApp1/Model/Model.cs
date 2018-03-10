@@ -25,8 +25,8 @@ namespace WindowsFormsApp1.Model
         }
         public MySqlDataAdapter GetAllStoredData() { return ServiceGetData.all(); }
 
-        public MySqlDataAdapter GetStoredDataByDate(DateTime startDate,DateTime endDate) {
-            return ServiceGetData.ByDate(startDate, endDate);
+        public MySqlDataAdapter GetStoredDataByDate(DateTime startDate,DateTime endDate, String id_sensor) {
+            return ServiceGetData.ByDate(startDate, endDate, id_sensor);
         }
 
         public Boolean ImportDataFromTxt() {
