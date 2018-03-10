@@ -13,10 +13,10 @@ namespace WindowsFormsApp1.Model.DataBase.Mapper
     {
         public static String MapDate(DateTime date) {
             String strDate = date.ToString();
-            MessageBox.Show(strDate);
+            
             strDate.Replace("/", "-");
             strDate = strDate.Substring(0, 10);
-            MessageBox.Show(strDate);
+            
             return strDate;
         }
         

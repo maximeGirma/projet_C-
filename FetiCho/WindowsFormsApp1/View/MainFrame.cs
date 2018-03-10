@@ -17,6 +17,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using WindowsFormsApp1.View.Components;
+using System.Security.Permissions;
+using System.Security;
 
 namespace View
 
@@ -26,6 +28,7 @@ namespace View
         private Controller controller = null;
         public DateTime startDate;
         public DateTime endDate;
+        public String email_recipient;
         public MainFrame()
         {
             InitializeComponent();
@@ -96,9 +99,12 @@ namespace View
 
         private void envoiEmailToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            GetEmail mailbox = new GetEmail(this);
+            mailbox.Show();
+
             MailMessage email = new MailMessage();
             email.From = new MailAddress("bo76h211@gmail.com");
-            email.To.Add(new MailAddress("alexi.bdn@gmail.com"));
+            email.To.Add(new MailAddress(email_recipient));
             email.IsBodyHtml = true;
             email.Subject = "objet du mail";
             email.Body = " contenu du mail";
@@ -225,7 +231,7 @@ namespace View
             doc.Close();
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void send_mail(object sender, EventArgs e)
         {
 
         }
@@ -368,25 +374,35 @@ namespace View
             Console.WriteLine("Connected");
 
 
-            MySqlCommand cmd = new MySqlCommand("SELECT * from `meteodata`", conn);
+            MySqlCommand cmd = new MySqlCommand("SELECT * from `dataline`", conn);
             MySqlDataReader reader = cmd.ExecuteReader();
 
             StringBuilder csvcontent = new StringBuilder();
             csvcontent.AppendLine("id, date, temperature, taux d'humidite");
-
+            String sensor_name = "error";
             while (reader.Read())
             {
-                csvcontent.AppendLine(reader.GetString("id") + "," +
-                    reader.GetString("date") + "," +
-                    reader.GetString("temp").Replace(",", ".") + "," +
+                csvcontent.AppendLine(reader.GetString("idSensor") + "," +
+                    reader.GetString("dateTime") + "," +
+                    reader.GetString("temperature").Replace(",", ".") + "," +
                     reader.GetString("humidity") + "%");
-
+                sensor_name = reader.GetString("idSensor");
             }
             Console.ReadLine();
 
-            string pathCsv = @"D:\Zoran\Downloads\Dropbox\C\Dropbox\ProjetC#\4_Documents\sourcedonnees.csv";
-            File.AppendAllText(pathCsv, csvcontent.ToString());
+            
+            FolderBrowserDialog openFileDialog1 = new FolderBrowserDialog();
+            
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                String pathCsv = openFileDialog1.SelectedPath;
 
+                
+                File.AppendAllText(pathCsv + "\\"+sensor_name, csvcontent.ToString());
+
+
+
+            }
         }
 
         private void tableauDisplay(object sender, EventArgs e)
@@ -419,7 +435,7 @@ namespace View
             string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
             MySqlConnection conn = new MySqlConnection(pathDb);
             conn.Open();
-            MySqlCommand query = new MySqlCommand("SELECT * FROM `meteodata`", conn);
+            MySqlCommand query = new MySqlCommand("SELECT * FROM `dataline`", conn);
 
             MySqlDataReader myReader;
 
@@ -427,7 +443,7 @@ namespace View
 
             while (myReader.Read())
             {
-                this.chart1.Series["Temperature"].Points.AddXY(myReader.GetString("id"), myReader.GetDouble("temp"));
+                this.chart1.Series["Temperature"].Points.AddXY(myReader.GetString("id"), myReader.GetDouble("temperature"));
                 this.chart1.Series["Humidité"].Points.AddXY(myReader.GetString("id"), myReader.GetDouble("humidity"));
             }
 

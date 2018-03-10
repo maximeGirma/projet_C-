@@ -87,6 +87,12 @@
     <Compile Include="View\Components\CalendarDateSelector.Designer.cs">
       <DependentUpon>CalendarDateSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Components\GetEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Components\GetEmail.Designer.cs">
+      <DependentUpon>GetEmail.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\Components\SensorAskingPopup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +113,9 @@
     <EmbeddedResource Include="View\Components\AboutBox1.resx" />
     <EmbeddedResource Include="View\Components\CalendarDateSelector.resx">
       <DependentUpon>CalendarDateSelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Components\GetEmail.resx">
+      <DependentUpon>GetEmail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\Components\SensorAskingPopup.resx">
       <DependentUpon>SensorAskingPopup.cs</DependentUpon>

@@ -12,7 +12,7 @@ namespace WindowsFormsApp1.Model.DataBase.DataBaseAccess
     {
         public static MySqlCommand WithParameter(String parameter, DataBaseConnect conn)
         {
-            MessageBox.Show(parameter);
+            
             return new MySqlCommand(parameter, conn.conn);
            
         }

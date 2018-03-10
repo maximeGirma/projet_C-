@@ -35,11 +35,13 @@ namespace WindowsFormsApp1.View.Components
             
             mainframe.startDate = dateTimePicker1.Value;
             mainframe.endDate = dateTimePicker2.Value;
+            this.Close();
         }
 
         private void cancel_button(object sender, EventArgs e)
         {
-
+            
+            this.Close();
         }
     }
 }
