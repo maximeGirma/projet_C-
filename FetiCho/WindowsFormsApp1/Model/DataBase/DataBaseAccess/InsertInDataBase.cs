@@ -27,7 +27,7 @@ namespace WindowsFormsApp1.Model.DataBase.DataBaseAccess
                 try
                 {
                     MySqlCommand cmd = new MySqlCommand("INSERT INTO `dataline` (`idSensor`, `dateTime`, `humidity`, `temperature`,`place`) VALUES(@id, @date, @humidity, @temp, @place)", conn.conn);
-                    cmd.Parameters.AddWithValue("@id", sensor_info.id_sensor);
+                    cmd.Parameters.AddWithValue("@idSensor", sensor_info.id_sensor);
                     cmd.Parameters.AddWithValue("@date", date);
                     cmd.Parameters.AddWithValue("@temp", temp);
                     cmd.Parameters.AddWithValue("@humidity", humidity);

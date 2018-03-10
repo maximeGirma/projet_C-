@@ -24,7 +24,8 @@ namespace View
     public partial class MainFrame : Form, IView
     {
         private Controller controller = null;
-        
+        public DateTime startDate;
+        public DateTime endDate;
         public MainFrame()
         {
             InitializeComponent();
@@ -393,7 +394,11 @@ namespace View
             this.setController();
             try
             {
-                MySqlDataAdapter sda = controller.getData();
+                
+                CalendarDateSelector dateselector = new CalendarDateSelector(this);
+                dateselector.ShowDialog();
+
+                MySqlDataAdapter sda = controller.getDataByDate(startDate, endDate);
 
                 DataTable dbdataset = new DataTable();
                 sda.Fill(dbdataset);
@@ -437,6 +442,7 @@ namespace View
         private void import_txt_button(object sender, EventArgs e)
         {
             setController();
+            
             Boolean itWorked = controller.importTxt();
             if (itWorked) { MessageBox.Show("Import effectué avec succés"); }else { MessageBox.Show("Erreur: Echec de l'import"); }
         }

@@ -12,7 +12,7 @@ namespace InterfaceModelView
     public interface IModel
     {
         MySqlDataAdapter GetAllStoredData();
-        DataList GetStoredDataByDate(DateTime date);
+        MySqlDataAdapter GetStoredDataByDate(DateTime startDate, DateTime endDate);
 
         Boolean ImportDataFromTxt();
 
