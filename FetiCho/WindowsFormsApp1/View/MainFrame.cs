@@ -15,6 +15,8 @@ using System.Net.Mime;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
+using WindowsFormsApp1.View.Components;
 
 namespace View
 
@@ -22,6 +24,7 @@ namespace View
     public partial class MainFrame : Form, IView
     {
         private Controller controller = null;
+        
         public MainFrame()
         {
             InitializeComponent();
@@ -29,7 +32,7 @@ namespace View
         }
         public void setController()
         {
-            controller = Controller.getInstance();
+            if (controller == null) controller = Controller.getInstance();
         }
 
         public void DisplayDataList(DataList dataList) { }
@@ -232,49 +235,20 @@ namespace View
 
         private void importTxtToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
+            MessageBox.Show("Data Deleted");
+            
+            
 
-            MySqlConnection conn = new MySqlConnection(pathDb);
-            Console.WriteLine("Connecting to MySQL...");
-            conn.Open();
+            
             Console.WriteLine("Connected");
 
             string path = @"D:\Zoran\Downloads\Dropbox\C\Dropbox\ProjetC#\4_Documents\Sourcedonnées.txt";
-            int counter = 0;
+            
 
             String[] file = File.ReadAllLines(path);         // Read the file and display it line by line.  
 
-            foreach (String lines in file)
-            {
-                string[] entries = lines.Split(' ');
-
-                int id = int.Parse(Regex.Replace(entries[0], "[^0-9 ]", ""));
-                DateTime date = System.DateTime.Parse(entries[1] + " " + entries[2]);
-                double temp = double.Parse(Regex.Replace(entries[3], "[^0-9., ]", "").Replace(".", ","));
-                double humidity = double.Parse(Regex.Replace(entries[4], "[^0-9., ]", "").Replace(".", ","));
-
-                try
-                {
-                    MySqlCommand cmd = new MySqlCommand("INSERT INTO `meteodata` (`id`, `date`, `temp`, `humidity`) VALUES(@id, @date, @temp, @humidity)", conn);
-                    cmd.Parameters.AddWithValue("@id", id);
-                    cmd.Parameters.AddWithValue("@date", date);
-                    cmd.Parameters.AddWithValue("@temp", temp);
-                    cmd.Parameters.AddWithValue("@humidity", humidity);
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-
-                counter++;
-
-            }
-
-
-            System.Console.WriteLine("There were {0} lines.", counter);
-            // Suspend the screen.  
-            System.Console.ReadLine();
+            
+            
         }
 
         private void affichageToolStripMenuItem_Click(object sender, EventArgs e)
@@ -385,8 +359,8 @@ namespace View
 
         private void csvToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
 
+            string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
             MySqlConnection conn = new MySqlConnection(pathDb);
             Console.WriteLine("Connecting to MySQL...");
             conn.Open();
@@ -458,6 +432,13 @@ namespace View
         {
             AboutBox1 box = new AboutBox1();
             box.ShowDialog();
+        }
+
+        private void import_txt_button(object sender, EventArgs e)
+        {
+            setController();
+            Boolean itWorked = controller.importTxt();
+            if (itWorked) { MessageBox.Show("Import effectué avec succés"); }else { MessageBox.Show("Erreur: Echec de l'import"); }
         }
     }
 }

@@ -11,7 +11,7 @@ namespace WindowsFormsApp1.Model.DataBase.DataBaseAccess
     {
         public static MySqlCommand Data(DataBaseConnect connection)
         {
-            return new MySqlCommand("SELECT * from `pouet`", connection.conn);
+            return new MySqlCommand("SELECT * ", connection.conn);
             
         } 
     }

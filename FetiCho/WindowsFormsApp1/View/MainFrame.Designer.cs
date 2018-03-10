@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importTxtToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,8 +42,8 @@
             this.pdfToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.envoiEmailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.affichageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.graphiqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableauToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.graphiqueToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.aProposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -99,6 +99,7 @@
             this.txtToolStripMenuItem.Name = "txtToolStripMenuItem";
             this.txtToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.txtToolStripMenuItem.Text = "txt...";
+            this.txtToolStripMenuItem.Click += new System.EventHandler(this.import_txt_button);
             // 
             // exportCsvToolStripMenuItem
             // 
@@ -113,14 +114,14 @@
             // csvToolStripMenuItem
             // 
             this.csvToolStripMenuItem.Name = "csvToolStripMenuItem";
-            this.csvToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.csvToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
             this.csvToolStripMenuItem.Text = "csv...";
             this.csvToolStripMenuItem.Click += new System.EventHandler(this.csvToolStripMenuItem_Click);
             // 
             // pdfToolStripMenuItem
             // 
             this.pdfToolStripMenuItem.Name = "pdfToolStripMenuItem";
-            this.pdfToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.pdfToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
             this.pdfToolStripMenuItem.Text = "pdf...";
             this.pdfToolStripMenuItem.Click += new System.EventHandler(this.pdfToolStripMenuItem_Click);
             // 
@@ -141,19 +142,19 @@
             this.affichageToolStripMenuItem.Text = "Affichage";
             this.affichageToolStripMenuItem.Click += new System.EventHandler(this.affichageToolStripMenuItem_Click);
             // 
-            // graphiqueToolStripMenuItem
-            // 
-            this.graphiqueToolStripMenuItem.Name = "graphiqueToolStripMenuItem";
-            this.graphiqueToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.graphiqueToolStripMenuItem.Text = "Graphique";
-            this.graphiqueToolStripMenuItem.Click += new System.EventHandler(this.graphiqueToolStripMenuItem_Click);
-            // 
             // tableauToolStripMenuItem
             // 
             this.tableauToolStripMenuItem.Name = "tableauToolStripMenuItem";
             this.tableauToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tableauToolStripMenuItem.Text = "Tableau";
             this.tableauToolStripMenuItem.Click += new System.EventHandler(this.tableauDisplay);
+            // 
+            // graphiqueToolStripMenuItem
+            // 
+            this.graphiqueToolStripMenuItem.Name = "graphiqueToolStripMenuItem";
+            this.graphiqueToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.graphiqueToolStripMenuItem.Text = "Graphique";
+            this.graphiqueToolStripMenuItem.Click += new System.EventHandler(this.graphiqueToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -166,7 +167,7 @@
             // aProposToolStripMenuItem
             // 
             this.aProposToolStripMenuItem.Name = "aProposToolStripMenuItem";
-            this.aProposToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aProposToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.aProposToolStripMenuItem.Text = "A propos";
             this.aProposToolStripMenuItem.Click += new System.EventHandler(this.aProposToolStripMenuItem_Click);
             // 
@@ -217,23 +218,23 @@
             // 
             // chart1
             // 
-            chartArea7.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea7);
-            legend7.Name = "Legend1";
-            this.chart1.Legends.Add(legend7);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(499, 57);
             this.chart1.Margin = new System.Windows.Forms.Padding(20);
             this.chart1.Name = "chart1";
-            series13.ChartArea = "ChartArea1";
-            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series13.Legend = "Legend1";
-            series13.Name = "Temperature";
-            series14.ChartArea = "ChartArea1";
-            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series14.Legend = "Legend1";
-            series14.Name = "Humidité";
-            this.chart1.Series.Add(series13);
-            this.chart1.Series.Add(series14);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "Temperature";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Legend = "Legend1";
+            series2.Name = "Humidité";
+            this.chart1.Series.Add(series1);
+            this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(473, 256);
             this.chart1.TabIndex = 6;
             this.chart1.Text = "chart1";
@@ -250,7 +251,7 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // Form1
+            // MainFrame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -263,7 +264,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form1";
+            this.Name = "MainFrame";
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

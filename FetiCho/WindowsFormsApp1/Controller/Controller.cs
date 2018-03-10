@@ -47,6 +47,10 @@ namespace FetiCho
             return model.GetAllStoredData();
         }
 
-
+        public Boolean importTxt()
+        {
+           Boolean importWorked = model.ImportDataFromTxt();
+            if (importWorked) { return true; } else { return false; }
+        }
     }
 }
