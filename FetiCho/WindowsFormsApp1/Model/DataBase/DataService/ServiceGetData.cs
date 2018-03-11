@@ -13,7 +13,7 @@ namespace WindowsFormsApp1.Model.DataBase.DataService
     {
         public static MySqlDataAdapter all()
         {
-            Console.WriteLine("1");
+            
             MySqlCommand dataFromBase = SelectAll.Data(DataBaseConnect.getInstance());
             return  DataBaseToWinForm.Transform(dataFromBase);
             

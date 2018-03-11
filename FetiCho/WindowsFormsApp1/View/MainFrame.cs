@@ -446,18 +446,36 @@ namespace View
             string pathDb = "server=localhost; user=root; database=world_x; port=3306; password=";
             MySqlConnection conn = new MySqlConnection(pathDb);
             conn.Open();
-            MySqlCommand query = new MySqlCommand("SELECT * FROM `dataline`", conn);
-
+            String strStartDate = startDate.ToString().Substring(0, 10);
+            String strEndDate = endDate.ToString().Substring(0, 10);
+            MySqlCommand query = new MySqlCommand(
+                "SELECT * FROM dataline WHERE dataline.dateTime >= '" 
+                + strStartDate +
+                "' AND dataline.dateTime <= '" 
+                + strEndDate + 
+                "'" +
+                " AND dataline.idSensor = '" 
+                + id_sensor_to_display + 
+                "'", 
+                conn);
+            
+            
             MySqlDataReader myReader;
-
+            int compteur = 0;
             myReader = query.ExecuteReader();
+            
+           
+            this.chart1.Series["Temperature"].Points.Clear();
+            this.chart1.Series["Humidité"].Points.Clear();
 
             while (myReader.Read())
             {
+                compteur++;
                 this.chart1.Series["Temperature"].Points.AddXY(myReader.GetString("id"), myReader.GetDouble("temperature"));
                 this.chart1.Series["Humidité"].Points.AddXY(myReader.GetString("id"), myReader.GetDouble("humidity"));
             }
 
+            if (compteur <= 1) { MessageBox.Show("Pour afficher le graphique veuillez au préalable charger un tableau"); }
         }
 
         private void aProposToolStripMenuItem_Click(object sender, EventArgs e)
